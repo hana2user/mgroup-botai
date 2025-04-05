@@ -6,7 +6,6 @@ app.use(express.json());
 const port = 3000;
 
 app.get('/hello', (req, res) => {
-    console.log(process.env.FIREBASE_API_KEY); 
     res.send('Hello World from Express!')});
 
 app.get('/content', async (req, res) => {
@@ -14,7 +13,7 @@ app.get('/content', async (req, res) => {
         const { message } = req.body;
         const content = await generateContent(message);
         if ( content == null || content === '') {
-            content = 'No content was received :(';
+            content = 'No content was received.';
         }
         res.status(200).json({ content });
     } catch (error) {

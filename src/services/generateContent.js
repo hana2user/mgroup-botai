@@ -29,9 +29,10 @@ export async function generateContent(question) {
       text: `Answer only about Mgroup based on this company information:\n${dataText}.
             However, your answer is not limited to this information. 
             You can provide additional facts and context to give a more complete and detailed information about Mgroup.
-            If there are no answer in the information, respond with: "I have no the information."
             Make sure to provide a detailed, well-rounded response that covers all possible aspects related to the question.
-            If the question does not contain "Mgroup", respond with: "I'm answering only about Mgroup."`
+            Give your answer in the same language in which the question was asked.
+            If there are no answer in the information, respond with: "I have no the information."            
+            If the question does not contain "Mgroup" or "אם גרופ", respond with: "I'm answering only about Mgroup."`
     }]
   };
 
@@ -52,6 +53,6 @@ export async function generateContent(question) {
 
 async function sendContent(model, content) {
   const result = await model.generateContent(content);
-  
+
   return result.response.text();
 }
