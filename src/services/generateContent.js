@@ -13,7 +13,7 @@ async function fetchData() {
   return documents;
 }
 
-async function generateContent(question) {
+export async function generateContent(question) {
   const firestoreData = await fetchData();
   
   if (firestoreData.length === 0) {
@@ -47,23 +47,11 @@ async function generateContent(question) {
     systemInstruction,
   });
 
-  await sendContent(model, question);
+  return await sendContent(model, question);
 }
 
 async function sendContent(model, content) {
   const result = await model.generateContent(content);
-  console.log("AI Response:", result.response.text());
+  
+  return result.response.text();
 }
-
-// const question = "What is Mgroup?";
-// const question = "What is soup of Mgroup?"
-// const question = "When was Mgroup founded?";
-// const question = "What pronciples of ethics are exist in Mgroup?";
-// const question = "What is adress of Mgroup?";
-// const question = "?Mgroup איזו כתובת";
-// const question = "?Mgroup מה זה ";
-// const question = "What is postal code of Mgroup?";
-// const question = "What about harassment in Mgroup?";
-const question = "Who is the head of Israel?";
-
-generateContent(question);
