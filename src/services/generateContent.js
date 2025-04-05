@@ -30,7 +30,7 @@ export async function generateContent(question) {
             However, your answer is not limited to this information. 
             You can provide additional facts and context to give a more complete and detailed information about Mgroup.
             Make sure to provide a detailed, well-rounded response that covers all possible aspects related to the question.
-            Give your answer in the same language in which the question was asked.
+            Give your answer in the same language in which the question was asked, but respond in English if the language is not specified.
             If there are no answer in the information, respond with: "I have no the information."            
             If the question does not contain "Mgroup" or "אם גרופ", respond with: "I'm answering only about Mgroup."`
     }]
