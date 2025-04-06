@@ -8,7 +8,7 @@ const port = 3000;
 app.get('/hello', (req, res) => {
     res.send('Hello World from Express!')});
 
-app.get('/content', async (req, res) => {
+app.post('/content', async (req, res) => {
     try {
         const { message } = req.body;
         const content = await generateContent(message);
