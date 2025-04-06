@@ -1,7 +1,9 @@
 import express from 'express';
+import cors from 'cors';
 import { generateContent } from './src/services/generateContent.js';
 
 const app = express();
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 const port = 3000;
 
