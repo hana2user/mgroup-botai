@@ -1,10 +1,15 @@
 import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 let phrases = [];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const filePath = join(__dirname, '../assets/phrases.json');
 
 export async function loadPhrases() {
   try {
-    const data = await readFile('../assets/phrases.json', 'utf-8');
+    const data = await readFile(filePath, 'utf-8');
     phrases = JSON.parse(data);
   } catch (err) {
     console.error('Failed to load phrases:', err);
