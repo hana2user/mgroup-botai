@@ -1,11 +1,12 @@
 import { WebSocketServer } from 'ws';
-import { generateContent } from './src/services/generateContent.js';
+import { fetchFbData, generateContent } from './src/services/generateContent.js';
 import { getRandomPhrase, loadPhrases } from './src/services/getRandomPhrase.js';
 
 const PORT = process.env.PORT || 3000;
 
 const wss = new WebSocketServer({ port: PORT });
 
+await fetchFbData();
 await loadPhrases();
 
 wss.on('connection', (ws) => {

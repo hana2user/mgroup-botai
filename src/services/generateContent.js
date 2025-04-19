@@ -3,26 +3,27 @@ import { firebaseApp, db } from "../config/firebaseConfig.js";
 import { getVertexAI, getGenerativeModel } from "firebase/vertexai";
 
 const COLLECTION_NAME = "company_info";
+let dataText = '';
 
-async function fetchData() {
+export async function fetchFbData() {
   const querySnapshot = await getDocs(collection(db, COLLECTION_NAME));
-  let documents = [];
-  querySnapshot.forEach((doc) => {
-    documents.push(doc.data());
-  });
-  console.log(documents);
-  return documents;
-}
 
-export async function generateContent(question) {
-  const firestoreData = await fetchData();
-  
+  let firestoreData = [];
+  querySnapshot.forEach((doc) => {
+    firestoreData.push(doc.data());
+  });
+
   if (firestoreData.length === 0) {
     console.log("No Firestore data found!");
     return;
   }
 
-  const dataText = firestoreData.map(doc => JSON.stringify(doc)).join("\n");
+  console.log(firestoreData);
+  dataText = firestoreData.map(doc => JSON.stringify(doc)).join("\n");
+
+}
+
+export async function generateContent(question) {
 
   const systemInstruction = {
     role: "system",
