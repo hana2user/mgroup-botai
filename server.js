@@ -1,12 +1,21 @@
 import { WebSocketServer } from 'ws';
 import { generateContent } from './src/services/generateContent.js';
+import { getRandomPhrase, loadPhrases } from './src/services/getRandomPhrase.js';
 
 const PORT = process.env.PORT || 3000;
 
 const wss = new WebSocketServer({ port: PORT });
 
+await loadPhrases();
+
 wss.on('connection', (ws) => {
   console.log('Client is connected');
+
+  ws.isAlive = true;
+
+  ws.on('pong', () => {
+    ws.isAlive = true;
+  });
 
   ws.on('message', async (messageBuffer) => {
     try {
@@ -31,5 +40,21 @@ wss.on('connection', (ws) => {
     console.log('Client has disconnected');
   });
 });
+
+const interval = setInterval(() => {
+    wss.clients.forEach((ws) => {
+      if (ws.isAlive === false) {
+        console.log('Dead conection detected. Deleting.');
+        return ws.terminate();
+      }
+  
+      ws.isAlive = false;
+      ws.ping();
+      const message = getRandomPhrase();
+      ws.send(JSON.stringify({ system: message }));
+    });
+  }, 30000);
+  
+wss.on('close', () => clearInterval(interval));
 
 console.log(`WebSocket listens port ${PORT}`);
