@@ -10,6 +10,7 @@ async function fetchData() {
   querySnapshot.forEach((doc) => {
     documents.push(doc.data());
   });
+  console.log(documents);
   return documents;
 }
 

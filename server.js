@@ -1,32 +1,35 @@
-import express from 'express';
-import cors from 'cors';
+import { WebSocketServer } from 'ws';
 import { generateContent } from './src/services/generateContent.js';
 
-const corsOptions = {
-    origin: ['https://mgroup.onrender.com', 'http://localhost:3000'],
-};
+const PORT = process.env.PORT || 3000;
 
-const app = express();
-app.use(cors(corsOptions));
-app.use(express.json());
-const port = 3000;
+const wss = new WebSocketServer({ port: PORT });
 
-app.get('/hello', (req, res) => {
-    res.send('Hello World from Express!')
-});
+wss.on('connection', (ws) => {
+  console.log('Client is connected');
 
-app.post('/content', async (req, res) => {
+  ws.on('message', async (messageBuffer) => {
     try {
-        const { message } = req.body;
-        const content = await generateContent(message);
-        if (content == null || content === '') {
-            content = 'No content was received.';
-        }
-        res.status(200).json({ content });
-    } catch (error) {
-        console.error("Error generating content:", error);
-        res.status(500).json({ error: "An error occurred while generating content." });
+      const data = JSON.parse(messageBuffer.toString());
+      const { message } = data;
+
+      console.log('Received from client:', message);
+
+      let content = await generateContent(message);
+      if (!content) {
+        content = 'No content was received.';
+      }
+
+      ws.send(JSON.stringify({ content }));
+    } catch (err) {
+      console.error('Processing error:', err);
+      ws.send(JSON.stringify({ error: 'Error on server' }));
     }
+  });
+
+  ws.on('close', () => {
+    console.log('Client has disconnected');
+  });
 });
 
-app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+console.log(`WebSocket listens port ${PORT}`);
