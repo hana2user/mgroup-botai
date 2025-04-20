@@ -18,7 +18,6 @@ export async function fetchFbData() {
     return;
   }
 
-  console.log(firestoreData);
   dataText = firestoreData.map(doc => JSON.stringify(doc)).join("\n");
 
 }
