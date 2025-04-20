@@ -2,7 +2,7 @@ import { WebSocketServer } from 'ws';
 import { fetchFbData, generateContent } from './src/services/generateContent.js';
 import { getRandomPhrase, loadPhrases } from './src/services/getRandomPhrase.js';
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 const wss = new WebSocketServer({ port: PORT });
 

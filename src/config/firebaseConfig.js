@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: process.env.FB_API_KEY,
+    apiKey: process.env.REACT_APP_FB_API_KEY,
     authDomain: "mgroup-3cf26.firebaseapp.com",
     projectId: "mgroup-3cf26",
     storageBucket: "mgroup-3cf26.firebasestorage.app",
